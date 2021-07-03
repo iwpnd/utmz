@@ -4,16 +4,17 @@ import (
 	"math"
 )
 
-// Point
+// Point ...
 type Point struct {
 	Lng, Lat float64
 }
 
+// Valid ...
 func (p Point) Valid() bool {
 	return p.Lng >= -180 && p.Lng <= 180 && p.Lat >= -90 && p.Lat <= 90
 }
 
-// Get UTM Zone
+// Zone ...
 func Zone(p Point) int {
 
 	if p.Lat >= 72.0 && p.Lat < 84.0 {
@@ -38,13 +39,13 @@ func Zone(p Point) int {
 	return int(math.Round((183 + p.Lng) / 6))
 }
 
-// Get UTM Zone EPSG
+// Epsg ...
 func Epsg(p Point) int {
 	zone := Zone(p)
 
 	if p.Lat > 0 {
 		return 32600 + zone
-	} else {
-		return 32700 + zone
 	}
+
+	return 32700 + zone
 }

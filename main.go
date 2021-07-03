@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	utmz "github.com/iwpnd/utmz"
+	utmz "github.com/iwpnd/utmz/pkg"
 )
 
 func main() {
