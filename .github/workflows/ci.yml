@@ -15,19 +15,14 @@ jobs:
     
     - name: Setup Go
       uses: actions/setup-go@v2
-    
-    - name: install dependencies
-      run: |
-        go version
-        go get -u golang.org/x/lint/golint
-        
+       
     - name: build
       run: go build . 
       
-    - name: vet & lint
-      run: |
-        go vet .
-        golint .
+    - name: lint
+      uses: golangci/golangci-lint-action@v2.5.2
+      with:
+        version: latest
     
     - name: test
       run: go test ./... -vv
