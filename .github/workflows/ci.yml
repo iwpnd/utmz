@@ -25,4 +25,4 @@ jobs:
         version: latest
     
     - name: test
-      run: go test ./... -vv
+      run: go test -v ./...
