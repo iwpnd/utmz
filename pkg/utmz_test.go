@@ -20,12 +20,35 @@ func TestEpsg(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Epsg(Point{Lat: test.lat, Lng: test.lng})
+		got, _ := Epsg(Point{Lat: test.lat, Lng: test.lng})
 
 		if got != test.expected {
 			t.Errorf("Expected %v, got: %v", test.expected, got)
 		}
 	}
+}
+
+func TestEpsgErr(t *testing.T) {
+	p := Point{Lat: 91, Lng: 181}
+
+	got, _ := Epsg(p)
+
+	if got != 0 {
+		t.Errorf("Expected error, got %v", got)
+	}
+}
+
+func TestInvalidPointError(t *testing.T) {
+	expected := "Point{Lat: 52, Lng: -190} - invalid point"
+	p := Point{Lat: 52, Lng: -190}
+
+	_, err := Epsg(p)
+
+	if err.Error() != expected {
+		t.Errorf("Expected: %v, got: %v", expected, err)
+
+	}
+
 }
 
 func TestPointValid(t *testing.T) {

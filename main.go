@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -33,11 +32,12 @@ Basic Options:
 
 	p := utmz.Point{Lng: lng, Lat: lat}
 
-	if !p.Valid() {
-		err := errors.New("Invalid point")
-		fmt.Println(err)
+	epsg, err := utmz.Epsg(p)
+
+	if err != nil {
+		fmt.Println("err:", err.Error())
 		return
 	}
 
-	fmt.Printf("EPSG:%v\n", utmz.Epsg(p))
+	fmt.Printf("EPSG:%v\n", epsg)
 }
