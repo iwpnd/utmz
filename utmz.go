@@ -19,12 +19,12 @@ type Point struct {
 	Lng, Lat float64
 }
 
-// Valid ...
+// Valid to validate a point
 func (p Point) Valid() bool {
 	return p.Lng >= -180 && p.Lng <= 180 && p.Lat >= -90 && p.Lat <= 90
 }
 
-// Zone ...
+// Zone to get UTM zone from point
 func Zone(p Point) (int, error) {
 
 	if !p.Valid() {
@@ -53,7 +53,7 @@ func Zone(p Point) (int, error) {
 	return int(math.Round((183 + p.Lng) / 6)), nil
 }
 
-// Epsg ...
+// Epsg of utm zone from point
 func Epsg(p Point) (int, error) {
 	zone, err := Zone(p)
 
@@ -66,4 +66,25 @@ func Epsg(p Point) (int, error) {
 	}
 
 	return 32700 + zone, nil
+}
+
+// Proj4 to get proj4 format from point
+func Proj4(p Point) (string, error) {
+	var zs string
+
+	z, err := Zone(p)
+
+	if err != nil {
+		return "", err
+	}
+
+	// if souther hemisphere add an S to zone number
+	// else leave blank zone number defaulting to north
+	if p.Lat < 0 {
+		zs = fmt.Sprintf("%vS", z)
+	} else {
+		zs = fmt.Sprint(z)
+	}
+
+	return fmt.Sprintf("+proj=utm +zone=%v +datum=WGS84 +units=m +no_def +ellps=WGS84 +towgs84=0,0,0", zs), nil
 }

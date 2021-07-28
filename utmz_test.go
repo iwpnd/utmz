@@ -70,3 +70,22 @@ func TestPointValid(t *testing.T) {
 		}
 	}
 }
+
+func TestProj4(t *testing.T) {
+	tests := []struct {
+		lat, lng float64
+		expected string
+	}{
+		{lat: 52, lng: 13, expected: "+proj=utm +zone=33 +datum=WGS84 +units=m +no_def +ellps=WGS84 +towgs84=0,0,0"},
+		{lat: -52, lng: 13, expected: "+proj=utm +zone=33S +datum=WGS84 +units=m +no_def +ellps=WGS84 +towgs84=0,0,0"},
+	}
+
+	for _, test := range tests {
+		p := Point{Lat: test.lat, Lng: test.lng}
+		got, _ := Proj4(p)
+
+		if got != test.expected {
+			t.Errorf("Expected %v, got %v", test.expected, got)
+		}
+	}
+}
