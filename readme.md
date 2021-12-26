@@ -24,8 +24,7 @@ import (
   )
 
 func main() {
-  p := utmz.Point{Lat: 52.25, Lng: 13.37}
-  z, err := utmz.Zone(p)
+  z, err := utmz.Zone(52.25,13.37)
 
   if err != nil {
       fmt.Println(err)
@@ -56,8 +55,7 @@ import (
   )
 
 func main() {
-  p := utmz.Point{Lat: 52.25, Lng: 13.37}
-  epsg, err := utmz.Epsg(p)
+  epsg, err := utmz.Epsg(52.25,13.37)
 
   if err != nil {
       fmt.Println(err)
@@ -88,8 +86,7 @@ import (
   )
 
 func main() {
-  p := utmz.Point{Lat: 52.25, Lng: 13.37}
-  proj4, err := utmz.Proj4(p)
+  proj4, err := utmz.Proj4(52.25,13.37)
 
   if err != nil {
       fmt.Println(err)
