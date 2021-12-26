@@ -25,7 +25,9 @@ func (p Point) Valid() bool {
 }
 
 // Zone to get UTM zone from point
-func Zone(p Point) (int, error) {
+func Zone(lat, lng float64) (int, error) {
+
+	p := Point{Lat: lat, Lng: lng}
 
 	if !p.Valid() {
 		return 0, &invalidPointError{p: p, msg: "invalid point"}
@@ -54,8 +56,14 @@ func Zone(p Point) (int, error) {
 }
 
 // Epsg of utm zone from point
-func Epsg(p Point) (int, error) {
-	zone, err := Zone(p)
+func Epsg(lat, lng float64) (int, error) {
+	p := Point{Lat: lat, Lng: lng}
+
+	if !p.Valid() {
+		return 0, &invalidPointError{p: p, msg: "invalid point"}
+	}
+
+	zone, err := Zone(lat, lng)
 
 	if err != nil {
 		return 0, err
@@ -69,10 +77,16 @@ func Epsg(p Point) (int, error) {
 }
 
 // Proj4 to get proj4 format from point
-func Proj4(p Point) (string, error) {
+func Proj4(lat, lng float64) (string, error) {
 	var zs string
 
-	z, err := Zone(p)
+	p := Point{Lat: lat, Lng: lng}
+
+	if !p.Valid() {
+		return "", &invalidPointError{p: p, msg: "invalid point"}
+	}
+
+	z, err := Zone(lat, lng)
 
 	if err != nil {
 		return "", err
